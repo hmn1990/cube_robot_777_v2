@@ -1,0 +1,151 @@
+ 初始配置，后续根据测试情况调整
+基本配置
+odrv0.config.brake_resistance = 0.5 (电阻标称值0.5ohm)
+odrv0.config.dc_bus_undervoltage_trip_level = 20
+odrv0.config.dc_bus_overvoltage_trip_level = 28
+odrv0.config.dc_max_positive_current = 10
+odrv0.config.dc_max_negative_current = -5
+odrv0.config.max_regen_current = 0
+
+电机配置
+odrv0.axis0.motor.config.pole_pairs = 7 （电机极对数，使用的电机极对数为 7）
+odrv0.axis0.motor.config.calibration_current = 10
+odrv0.axis0.motor.config.resistance_calib_max_voltage = 2
+odrv0.axis0.motor.config.motor_type = MOTOR_TYPE_HIGH_CURRENT
+odrv0.axis0.motor.config.current_lim = 30 （限制最大电流30A，后续根据实测情况调整）
+odrv0.axis0.motor.config.requested_current_range = 60
+
+编码器
+odrv0.axis0.encoder.config.mode = ENCODER_MODE_INCREMENTAL
+odrv0.axis0.encoder.config.use_index = True
+odrv0.axis0.encoder.config.cpr = 16384
+odrv0.axis0.encoder.config.bandwidth = 3000
+以下五行都是默认的
+odrv0.axis0.config.calibration_lockin.current = 10
+odrv0.axis0.config.calibration_lockin.ramp_time = 0.4
+odrv0.axis0.config.calibration_lockin.ramp_distance = 3.1415927410125732
+odrv0.axis0.config.calibration_lockin.accel = 20
+odrv0.axis0.config.calibration_lockin.vel = 40
+
+控制器：
+odrv0.axis0.controller.config.control_mode = CONTROL_MODE_POSITION_CONTROL
+odrv0.axis0.controller.config.vel_limit = 100 （6000转每分钟）
+PID参数：
+In [35]: odrv0.axis0.controller.config.pos_gain
+Out[35]: 60.102874755859375
+
+In [36]: odrv0.axis0.controller.config.vel_gain
+Out[36]: 0.03645509481430054
+
+In [37]: odrv0.axis0.controller.config.vel_integrator_gain
+Out[37]: 2.0495998859405518
+
+加速减速参数
+odrv0.axis0.trap_traj.config.vel_limit = 90
+odrv0.axis0.trap_traj.config.accel_limit = 300
+odrv0.axis0.trap_traj.config.decel_limit = 300
+odrv0.axis0.controller.config.input_mode = INPUT_MODE_TRAP_TRAJ
+
+
+电机配置(通道1)
+odrv0.axis1.motor.config.pole_pairs = 7 （电机极对数，使用的电机极对数为 7）
+odrv0.axis1.motor.config.calibration_current = 10
+odrv0.axis1.motor.config.resistance_calib_max_voltage = 2
+odrv0.axis1.motor.config.motor_type = MOTOR_TYPE_HIGH_CURRENT
+odrv0.axis1.motor.config.current_lim = 30 （限制最大电流30A，后续根据实测情况调整）
+odrv0.axis1.motor.config.requested_current_range = 60
+
+编码器
+odrv0.axis1.encoder.config.mode = ENCODER_MODE_INCREMENTAL
+odrv0.axis1.encoder.config.use_index = True
+odrv0.axis1.encoder.config.cpr = 16384
+odrv0.axis1.encoder.config.bandwidth = 3000
+以下五行都是默认的
+odrv0.axis1.config.calibration_lockin.current = 10
+odrv0.axis1.config.calibration_lockin.ramp_time = 0.4
+odrv0.axis1.config.calibration_lockin.ramp_distance = 3.1415927410125732
+odrv0.axis1.config.calibration_lockin.accel = 20
+odrv0.axis1.config.calibration_lockin.vel = 40
+
+控制器：
+odrv0.axis1.controller.config.control_mode = CONTROL_MODE_POSITION_CONTROL
+odrv0.axis1.controller.config.vel_limit = 100 （6000转每分钟）
+PID参数：
+In [35]: odrv0.axis1.controller.config.pos_gain
+Out[35]: 60.102874755859375
+
+In [36]: odrv0.axis1.controller.config.vel_gain
+Out[36]: 0.03645509481430054
+
+In [37]: odrv0.axis1.controller.config.vel_integrator_gain
+Out[37]: 2.0495998859405518
+
+加速减速参数
+odrv0.axis1.trap_traj.config.vel_limit = 90
+odrv0.axis1.trap_traj.config.accel_limit = 300
+odrv0.axis1.trap_traj.config.decel_limit = 300
+odrv0.axis1.controller.config.input_mode = INPUT_MODE_TRAP_TRAJ
+
+
+
+
+常用指令
+odrv0.save_configuration()
+odrv0.reboot()
+
+odrv0.axis0.requested_state = AXIS_STATE_ENCODER_INDEX_SEARCH
+odrv0.axis0.requested_state = AXIS_STATE_CLOSED_LOOP_CONTROL
+odrv0.axis0.controller.input_pos = 0
+odrv0.axis0.requested_state = AXIS_STATE_IDLE
+
+校准电机
+odrv0.axis0.requested_state = AXIS_STATE_MOTOR_CALIBRATION
+dump_errors(odrv0)
+odrv0.axis0.motor.config.pre_calibrated = True
+校准编码器
+odrv0.axis0.requested_state = AXIS_STATE_ENCODER_INDEX_SEARCH
+dump_errors(odrv0)
+odrv0.axis0.requested_state = AXIS_STATE_ENCODER_OFFSET_CALIBRATION
+dump_errors(odrv0)
+odrv0.axis0.encoder.config.pre_calibrated = True
+odrv0.save_configuration()
+odrv0.reboot()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+odrv0.axis1.requested_state = AXIS_STATE_ENCODER_INDEX_SEARCH
+odrv0.axis1.requested_state = AXIS_STATE_CLOSED_LOOP_CONTROL
+odrv0.axis1.controller.input_pos = 0
+odrv0.axis1.requested_state = AXIS_STATE_IDLE
+
+校准电机
+odrv0.axis1.requested_state = AXIS_STATE_MOTOR_CALIBRATION
+dump_errors(odrv0)
+odrv0.axis1.motor.config.pre_calibrated = True
+校准编码器
+odrv0.axis1.requested_state = AXIS_STATE_ENCODER_INDEX_SEARCH
+dump_errors(odrv0)
+odrv0.axis1.requested_state = AXIS_STATE_ENCODER_OFFSET_CALIBRATION
+dump_errors(odrv0)
+odrv0.axis1.encoder.config.pre_calibrated = True
+odrv0.save_configuration()
+odrv0.reboot()
+
+
+
+
+
+
+
