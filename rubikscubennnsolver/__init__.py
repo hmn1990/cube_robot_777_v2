@@ -3623,7 +3623,7 @@ class RubiksCube(object):
         self.solution.append(
             "COMMENT_%d_steps_solve_333" % self.get_solution_len_minus_rotates(self.solution[reduce_333_solution_len:])
         )
-        print("Solution: %s" % " ".join(self.solution))
+        print("Solution_333: %s" % " ".join(self.solution))
         sys.stdout.flush()
         
         if not self.solved():
@@ -4567,7 +4567,10 @@ class RubiksCube(object):
         self.rotate_U_to_U()
         self.rotate_F_to_F()
         self.solution.append("CENTERS_SOLVED")
-
+        
+        #print("Solution_CENTERS_SOLVED:")
+        #sys.stdout.flush()
+        
         if self.edges_paired():
             logger.info("edges are already paired")
         else:

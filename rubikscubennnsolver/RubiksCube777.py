@@ -3910,8 +3910,10 @@ class RubiksCube777(RubiksCubeNNNOddEdges):
             "COMMENT_%d_steps_777_centers_solved"
             % self.get_solution_len_minus_rotates(self.solution[tmp_solution_len:])
         )
+        # for cubes larger than 777, not used
         print("Solution_777_pt: %s" % " ".join(self.solution))
         sys.stdout.flush()
+        
         self.print_cube()
         logger.info("%s: centers solved, %d steps in" % (self, self.get_solution_len_minus_rotates(self.solution)))
 

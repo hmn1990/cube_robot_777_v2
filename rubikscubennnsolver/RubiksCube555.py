@@ -1,6 +1,8 @@
 # standard libraries
 import itertools
 import logging
+import sys
+#from my_debug import ##detailtrace
 
 # rubiks cube libraries
 from rubikscubennnsolver import RubiksCube, reverse_steps, wing_str_map, wing_strs_all
@@ -2881,7 +2883,7 @@ class RubiksCube555(RubiksCube):
                 "COMMENT_%d_steps_555_LR_centers_staged"
                 % self.get_solution_len_minus_rotates(self.solution[tmp_solution_len:])
             )
-
+        ##detailtrace("COMMENT_%d_steps_555_LR_centers_staged")
         logger.info("%s: LR centers staged, %d steps in" % (self, self.get_solution_len_minus_rotates(self.solution)))
 
     def group_centers_stage_FB(self):
@@ -2899,6 +2901,7 @@ class RubiksCube555(RubiksCube):
                 "COMMENT_%d_steps_555_FB_centers_staged"
                 % self.get_solution_len_minus_rotates(self.solution[tmp_solution_len:])
             )
+            ##detailtrace("COMMENT_%d_steps_555_FB_centers_staged")
         else:
             try:
                 if self.edge_swaps_odd(False, 0, False):
@@ -2984,6 +2987,7 @@ class RubiksCube555(RubiksCube):
         self.solution.append(
             "COMMENT_%d_steps_555_edges_EOed" % self.get_solution_len_minus_rotates(self.solution[tmp_solution_len:])
         )
+        ##detailtrace("COMMENT_%d_steps_555_edges_EOed")
 
     def high_edge_midge_pair_count(self, target_wing_str=[]):
         count = 0
@@ -3110,7 +3114,7 @@ class RubiksCube555(RubiksCube):
             "COMMENT_%d_steps_555_first_four_edges_staged"
             % self.get_solution_len_minus_rotates(self.solution[original_solution_len:])
         )
-
+        ##detailtrace("COMMENT_%d_steps_555_first_four_edges_staged")
         original_state = self.state[:]
         original_solution = self.solution[:]
         original_solution_len = len(self.solution)
@@ -3136,7 +3140,7 @@ class RubiksCube555(RubiksCube):
             "COMMENT_%d_steps_555_first_four_edges_paired"
             % self.get_solution_len_minus_rotates(self.solution[original_solution_len:])
         )
-
+        ##detailtrace("COMMENT_%d_steps_555_first_four_edges_paired")
     def pair_last_eight_edges(self):
         original_state = self.state[:]
         original_solution = self.solution[:]
@@ -3178,7 +3182,7 @@ class RubiksCube555(RubiksCube):
             "COMMENT_%d_steps_555_last_eight_edges_paired"
             % self.get_solution_len_minus_rotates(self.solution[tmp_solution_len:])
         )
-
+        ##detailtrace("COMMENT_%d_steps_555_last_eight_edges_paired")
         logger.info("%s: reduced to 3x3x3, %d steps in" % (self, self.get_solution_len_minus_rotates(self.solution)))
 
     def reduce_333(self):
@@ -3187,13 +3191,16 @@ class RubiksCube555(RubiksCube):
         if not self.centers_solved() or not self.edges_paired():
             # phase 1
             self.group_centers_stage_LR()
-
+            print("Solution_555_p1: %s" % " ".join(self.solution))
+            sys.stdout.flush()
             # phase 2
             self.group_centers_stage_FB()
-
+            print("Solution_555_p2: %s" % " ".join(self.solution))
+            sys.stdout.flush()
             # phase 3
             self.eo_edges()
-
+            print("Solution_555_p3: %s" % " ".join(self.solution))
+            sys.stdout.flush()
             # phase 4
             # phase 5
             # phase 6
@@ -3210,7 +3217,11 @@ class RubiksCube555(RubiksCube):
                 self.state = original_state[:]
                 self.solution = original_solution[:]
                 self.pair_first_four_edges(wing_str_combo)
+                print("Solution_555_p4: %s" % " ".join(self.solution))
+                sys.stdout.flush()
                 self.pair_last_eight_edges()
+                print("Solution_555_p5: %s" % " ".join(self.solution))
+                sys.stdout.flush()
 
                 phase456_solution = self.solution[original_solution_len:]
                 phase456_solution_len = self.get_solution_len_minus_rotates(phase456_solution)

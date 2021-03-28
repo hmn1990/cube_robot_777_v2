@@ -354,8 +354,9 @@ def move_solution(test):
     #test="L' 3Bw2 Lw' 3Dw2 U"
     test = test.strip()
     test = test.split()
-    print('steps:',len(test))
+    print('steps: %d '%len(test), end='')
     for item in test:
+        print('-', end='')
         # 解析魔方指令
         face,layer,direction = decode_cube_str(item)
         # 将期望的面翻转到上方或者下方
@@ -429,6 +430,7 @@ def move_solution(test):
                 move_route(-1)
             elif direction == 2:
                 move_route(-2)
+    print('=')
 
 def performace_test():
     test_parten="3Uw 3Lw' 3Fw' L 3Lw2 3Dw L F B 3Rw2 3Uw U 3Lw2 U' Uw 3Rw2 Lw2 3Bw2 3Lw 3Uw2 3Fw2 Lw' 3Bw2 U' F Lw' Bw' L' Dw R D2 Fw2 Uw Bw B' 3Lw' 3Uw2 D 3Rw' U 3Lw' B 3Uw2 3Rw 3Uw2 3Bw2 Dw2 F' 3Lw2 F' D' 3Rw2 3Bw2 U2 D Lw2 F Lw' Fw2 Rw2 U2 B Lw L' 3Dw2 L"

@@ -1,5 +1,6 @@
 # standard libraries
 import logging
+import sys
 from math import ceil
 
 # rubiks cube libraries
@@ -35,6 +36,8 @@ class RubiksCubeNNNOddEdges(RubiksCube):
 
     def pair_edge_orbit_via_555(self, orbit):
         logger.info("%s: pair_edge_orbit_via_555 for %d" % (self, orbit))
+        print("Solution_555_orbit: %d" % orbit)
+        sys.stdout.flush()
         fake_555 = self.get_fake_555()
 
         # Fill in the corners so we can avoid certain types of parity
