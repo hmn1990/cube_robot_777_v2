@@ -16,6 +16,8 @@ cube_motion.move_servo_on()
 #file_name = "log/"+datetime.datetime.now().isoformat()+".log"
 #print("log file is",file_name)
 
+time_t0 = time.monotonic()
+
 img = [None]*6
 cube_motion.move_get_image(0)
 cube_robot_image.cap_img(cap,img,0) #U
@@ -111,6 +113,10 @@ while True:
             to_write = ' '.join(steps)
             print("%s: %s"%(solution_id, to_write))
             cube_motion.move_solution(to_write)
+
+time_t1 = time.monotonic()
+print(cube_motion.time_cost)
+print("Totel time cost: %.2fs" % (time_t1 - time_t0))
 
 process.wait()
 cube_motion.move_servo_off()

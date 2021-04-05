@@ -3,9 +3,10 @@
 import odrive
 from odrive.enums import *
 from odrive.utils import dump_errors
+#from odrive.utils import start_liveplotter
 
 import time
-#import sys
+import sys
 import os
 
 time_cost = {}
@@ -76,7 +77,7 @@ def move_up_down(new_pos, mode='default'):
     if mode == 'fast up':
         odrv0.axis1.trap_traj.config.vel_limit = 50
         odrv0.axis1.trap_traj.config.accel_limit = 400
-        odrv0.axis1.trap_traj.config.decel_limit = 60
+        odrv0.axis1.trap_traj.config.decel_limit = 90
         time_sleep = 0
     elif mode == 'fast down':
         odrv0.axis1.trap_traj.config.vel_limit = 50
@@ -85,20 +86,20 @@ def move_up_down(new_pos, mode='default'):
         time_sleep = 0
     elif mode == 'slow':
         odrv0.axis1.trap_traj.config.vel_limit = 2
-        odrv0.axis1.trap_traj.config.accel_limit = 15
-        odrv0.axis1.trap_traj.config.decel_limit = 10
+        odrv0.axis1.trap_traj.config.accel_limit = 20
+        odrv0.axis1.trap_traj.config.decel_limit = 15
         time_sleep = 0.02
     elif mode == 'default':
         odrv0.axis1.trap_traj.config.vel_limit = 8 #20
         if new_pos > z_pos_old: #上升
             mode == 'default up'
-            odrv0.axis1.trap_traj.config.accel_limit = 70 #70
-            odrv0.axis1.trap_traj.config.decel_limit = 40 #40
+            odrv0.axis1.trap_traj.config.accel_limit = 80 #80
+            odrv0.axis1.trap_traj.config.decel_limit = 43 #45
             time_sleep = 0.015
         elif new_pos < z_pos_old: #下降
             mode == 'default down'
-            odrv0.axis1.trap_traj.config.accel_limit = 30 #45
-            odrv0.axis1.trap_traj.config.decel_limit = 100 #180
+            odrv0.axis1.trap_traj.config.accel_limit = 38 #40
+            odrv0.axis1.trap_traj.config.decel_limit = 110 #120
             time_sleep = 0.015
     else:
         raise Exception("unknown mode")
@@ -182,7 +183,9 @@ def move_init():
     odrv0.axis1.requested_state = AXIS_STATE_ENCODER_INDEX_SEARCH
     while odrv0.axis1.current_state != AXIS_STATE_IDLE:
         time.sleep(0.1)
-
+    
+    # 绘制波形，方便调试
+    #start_liveplotter(lambda:[odrv0.axis1.encoder.pos_estimate,odrv0.axis1.controller.pos_setpoint])
     # 寻找机械零点
     odrv0.axis1.requested_state = AXIS_STATE_CLOSED_LOOP_CONTROL
     block, z_offset = move_up_down_and_check_block(-2)
@@ -357,6 +360,7 @@ def move_solution(test):
     print('steps: %d '%len(test), end='')
     for item in test:
         print('-', end='')
+        sys.stdout.flush()
         # 解析魔方指令
         face,layer,direction = decode_cube_str(item)
         # 将期望的面翻转到上方或者下方
@@ -430,10 +434,10 @@ def move_solution(test):
                 move_route(-1)
             elif direction == 2:
                 move_route(-2)
-    print('=')
+    print('')
 
 def performace_test():
-    test_parten="3Uw 3Lw' 3Fw' L 3Lw2 3Dw L F B 3Rw2 3Uw U 3Lw2 U' Uw 3Rw2 Lw2 3Bw2 3Lw 3Uw2 3Fw2 Lw' 3Bw2 U' F Lw' Bw' L' Dw R D2 Fw2 Uw Bw B' 3Lw' 3Uw2 D 3Rw' U 3Lw' B 3Uw2 3Rw 3Uw2 3Bw2 Dw2 F' 3Lw2 F' D' 3Rw2 3Bw2 U2 D Lw2 F Lw' Fw2 Rw2 U2 B Lw L' 3Dw2 L"
+    test_parten="3Uw 3Lw' 3Fw' L 3Lw2 3Dw L F B 3Rw2 3Uw U 3Lw2 U' Uw 3Rw2 Lw2 3Bw2 3Lw 3Uw2 3Fw2 Lw' 3Bw2 U' F Lw' Bw' L' Dw R D2 Fw2 Uw Bw B' 3Lw' 3Uw2 D 3Rw' U 3Lw' B 3Uw2 3Rw 3Uw2 3Bw2 Dw2"
     move_init()
     move_servo_on()
     t0 = time.monotonic()

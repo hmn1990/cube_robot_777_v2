@@ -200,8 +200,10 @@ def get_cube_string(img):
         cv2.rectangle(img_6in1,(x,y),(x+size-1,y+size-1),color_dict[cube_string[i]], -1)
     
     cv2.destroyAllWindows()
-    cv2.imshow("cube", img_6in1)
     cv2.namedWindow('cube')
+    cv2.moveWindow('cube',0,0)
+    cv2.imshow("cube", img_6in1)
+    
     cv2.waitKey(300)
     #cv2.setMouseCallback('cube',mouse)
 
