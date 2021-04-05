@@ -1,9 +1,12 @@
 # cube_robot_7x7x7
 
 #### 介绍
-使用树莓派控制的魔方机器人，可以在平均？？？分钟的时间内完成7阶魔方的还原。
+使用树莓派控制的魔方机器人，可以在平均3分钟的时间内完成7阶魔方的还原。
 使用C + Python开发，含有结构设计、软件部分，实物照片，演示视频。
 算法使用rubiks-cube-NxNxN-solver，可还原任意阶数魔方，在原版基础上略有修改。
+
+![WAI](https://gitee.com/hemn1990/cube_robot_777_v2/blob/master/%E7%BB%93%E6%9E%84%E5%9B%BE/%E9%AD%94%E6%96%B9%E6%9C%BA%E5%99%A8%E4%BA%BA.jpg)
+
 
 #### 系统架构
 <pre>
